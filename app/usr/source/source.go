@@ -89,7 +89,7 @@ func Start(ctx context.Context, cfg string, from int, to int) error {
 			return err
 		}
         
-        blacklistedDialogs = config.C.Blacklist
+        blacklistedDialogs := config.C.Blacklist
 
 		color.Blue("Get All Dialogs...")
 		dialogs, err := query.GetDialogs(c.API()).BatchSize(100).Collect(ctx)
@@ -115,8 +115,8 @@ func Start(ctx context.Context, cfg string, from int, to int) error {
 			if _, blocked := blockids[peerId]; blocked {
 				continue
 			}
-            if _, blacklisted := blacklistedDialogs[peerId]; blocked {
-                name := utils.Telegram.GetInputPeerName(peer, peer.Entities)
+            if _, blacklisted := blacklistedDialogs[peerId]; blacklisted {
+                name := utils.Telegram.GetInputPeerName(d.peer, d.peer.Entities)
                 color.Yellow("Skipped Dialog %s (%s) due to in blacklist", peerId, name)
 				continue
 			}
