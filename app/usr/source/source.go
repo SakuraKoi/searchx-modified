@@ -3,6 +3,7 @@ package source
 import (
 	"context"
 	"fmt"
+    "golang.org/x/exp/slices"
 	"github.com/fatih/color"
 	"github.com/gotd/contrib/middleware/floodwait"
 	"github.com/gotd/contrib/middleware/ratelimit"
@@ -89,7 +90,7 @@ func Start(ctx context.Context, cfg string, from int, to int) error {
 			return err
 		}
         
-        blacklistedDialogs = config.C.Blacklist
+        blacklistedDialogs := config.C.Blacklist
 
 		color.Blue("Get All Dialogs...")
 		dialogs, err := query.GetDialogs(c.API()).BatchSize(100).Collect(ctx)
@@ -115,8 +116,8 @@ func Start(ctx context.Context, cfg string, from int, to int) error {
 			if _, blocked := blockids[peerId]; blocked {
 				continue
 			}
-            if _, blacklisted := blacklistedDialogs[peerId]; blocked {
-                name := utils.Telegram.GetInputPeerName(peer, peer.Entities)
+            if slices.Contains(blacklistedDialogs, peerId) {
+                name := utils.Telegram.GetInputPeerName(d.Peer, d.Entities)
                 color.Yellow("Skipped Dialog %s (%s) due to in blacklist", peerId, name)
 				continue
 			}
