@@ -26,6 +26,8 @@ jobs:
           cache: true
       - name: Install slices dep
         run: go get golang.org/x/exp/slices
+      - name: Run go mod tidy
+        run: go mod tidy
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
