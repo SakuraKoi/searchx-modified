@@ -32,3 +32,4 @@ storage:
     options:
       path: data/index # bleve index dir path, default: data/index
       dict: data/dict.txt # dictionary file path, default: data/dict.txt
+blacklist: []

@@ -30,4 +30,5 @@ type config struct {
 			PageSize int `mapstructure:"page_size" validate:"gte=1,lte=20" default:"10"`
 		} `mapstructure:"search"`
 	} `mapstructure:"ctrl"`
+    Blacklist []int64 `mapstructure:"blacklist" validate:"required"`
 }
